@@ -8,13 +8,17 @@ pipeline {
     }
     stages {
         stage('Install dependencies') {
-            steps {
-                sh 'npm install'   // Or 'npm install', as needed
+            dir('scripts') {
+                steps {
+                    sh 'npm install'   // Or 'npm install', as needed
+                }
             }
         }
         stage('Test') {
-            steps {
-                sh 'node listRecords.js'
+            dir('scripts') {
+                steps {
+                    sh 'node scripts/listRecords.js'
+                }
             }
         }
     }

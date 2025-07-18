@@ -10,7 +10,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'node test.js'
+                sh 'node scripts/test.js'
             }
         }
     }
