@@ -35,4 +35,11 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            script {
+                currentBuild.description = "${params.A_RECORD_NAMES}\n${params.A_RECORD_VALUE}"
+            }
+        }
+    }
 }

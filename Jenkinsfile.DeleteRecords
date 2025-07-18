@@ -32,14 +32,10 @@ pipeline {
             }
         }
     }
-    // Set the job description:
     post {
         always {
             script {
-                // This sets the build description (appears in build history, not the job itself):
                 currentBuild.description = "${params.A_RECORD_NAMES}"
-
-                // To set the job description itself, see next section
             }
         }
     }
