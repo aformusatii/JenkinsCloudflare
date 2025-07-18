@@ -1,0 +1,21 @@
+pipeline {
+    agent {
+        docker { image 'node:20.15.1-alpine3.20' }
+    }
+    environment {
+        CLOUDFLARE_API_TOKEN = credentials('CLOUDFLARE_API_TOKEN')
+        ZONE_ID = '64f1d01b55108e9bdf1e2c195ba8f86a'
+    }
+    stages {
+        stage('Install dependencies') {
+            steps {
+                sh 'npm install'   // Or 'npm install', as needed
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'node test.js'
+            }
+        }
+    }
+}
