@@ -1,0 +1,38 @@
+pipeline {
+    agent {
+        docker { image 'node:20.15.1-alpine3.20' }
+    }
+    parameters {
+        string(name: 'CF_ZONE_ID', description: 'Cloudflare Zone ID', defaultValue: '64f1d01b55108e9bdf1e2c195ba8f86a')
+        string(name: 'A_RECORD_NAMES', description: 'Comma-separated A record names (example: www.example.com,api.example.com)', defaultValue: 'test')
+        string(name: 'A_RECORD_VALUE', description: 'IPv4 address for the A records', defaultValue: '192.168.1.1')
+    }
+    environment {
+        CF_API_TOKEN = credentials('CLOUDFLARE_API_TOKEN')
+        CF_ZONE_ID              = "${params.CF_ZONE_ID}"
+        A_RECORD_NAMES       = "${params.A_RECORD_NAMES}"
+        A_RECORD_VALUE       = "${params.A_RECORD_VALUE}"
+    }
+    stages {
+        stage('Install dependencies') {
+            steps {
+                dir('scripts') {
+                    sh 'npm install'   // Or 'npm install', as needed
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('scripts') {
+                    sh """
+                        node addDNSTypeARecord.js \
+                        --zone="$CF_ZONE_ID" \
+                        --token="$CF_API_TOKEN" \
+                        --names="$A_RECORD_NAMES" \
+                        --value="$A_RECORD_VALUE"
+                    """
+                }
+            }
+        }
+    }
+}
