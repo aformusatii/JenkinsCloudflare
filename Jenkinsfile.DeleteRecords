@@ -19,7 +19,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Delete A Records') {
             steps {
                 dir('scripts') {
                     sh """

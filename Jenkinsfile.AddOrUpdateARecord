@@ -21,7 +21,7 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Add or Update A Records') {
             steps {
                 dir('scripts') {
                     sh """
