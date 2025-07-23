@@ -91,11 +91,15 @@ async function main() {
 
     // Go over each name and delete all matching A records
     for (const name of nameList) {
-        const matches = aRecords.filter(r => r.name.toLowerCase() === name.toLowerCase());
+        const matches = aRecords.filter(r => {
+            return r.name.toLowerCase() === name.toLowerCase();
+        });  
+
         if (matches.length === 0) {
             console.log(`No A record found for name: ${name} (nothing to delete)`);
             continue;
         }
+
         for (const record of matches) {
             const deleted = await deleteDNSRecord(zoneId, record.id, token);
             if (deleted) {
