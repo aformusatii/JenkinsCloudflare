@@ -26,8 +26,6 @@ pipeline {
                 dir('scripts') {
                     sh """
                         node addDNSTypeARecord.js \
-                        --zone="$CF_ZONE_ID" \
-                        --token="$CF_API_TOKEN" \
                         --names="$A_RECORD_NAMES" \
                         --value="$A_RECORD_VALUE"
                     """

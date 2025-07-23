@@ -3,8 +3,8 @@ pipeline {
         docker { image 'node:20.15.1-alpine3.20' }
     }
     environment {
-        CLOUDFLARE_API_TOKEN = credentials('CLOUDFLARE_API_TOKEN')
-        ZONE_ID = '64f1d01b55108e9bdf1e2c195ba8f86a'
+        CF_API_TOKEN = credentials('CLOUDFLARE_API_TOKEN')
+        CF_ZONE_ID = '64f1d01b55108e9bdf1e2c195ba8f86a'
     }
     stages {
         stage('Install dependencies') {

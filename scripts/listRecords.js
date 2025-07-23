@@ -2,11 +2,11 @@ const axios = require('axios');
 require('dotenv').config();
 
 // Replace with your actual values
-const CLOUDFLARE_API_TOKEN = process.env.CLOUDFLARE_API_TOKEN;
-const ZONE_ID = process.env.ZONE_ID;
+const CF_API_TOKEN = process.env.CF_API_TOKEN;
+const CF_ZONE_ID = process.env.CF_ZONE_ID;
 
 async function listARecords() {
-  const url = `https://api.cloudflare.com/client/v4/zones/${ZONE_ID}/dns_records`;
+  const url = `https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records`;
 
   let page = 1, hasMore = true;
   const aRecords = [];
@@ -15,7 +15,7 @@ async function listARecords() {
     try {
       const response = await axios.get(url, {
         headers: {
-          'Authorization': `Bearer ${CLOUDFLARE_API_TOKEN}`,
+          'Authorization': `Bearer ${CF_API_TOKEN}`,
           'Content-Type': 'application/json'
         },
         params: {

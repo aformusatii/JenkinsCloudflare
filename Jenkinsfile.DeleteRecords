@@ -24,8 +24,6 @@ pipeline {
                 dir('scripts') {
                     sh """
                         node deleteDNSTypeARecord.js \
-                        --zone="$CF_ZONE_ID" \
-                        --token="$CF_API_TOKEN" \
                         --names="$A_RECORD_NAMES"
                     """
                 }

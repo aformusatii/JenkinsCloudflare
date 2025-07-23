@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('dotenv').config();
 
 // Simple domain validation, can be improved if needed
 function isValidDomain(name) {
@@ -57,10 +58,13 @@ async function deleteDNSRecord(zoneId, recordId, token) {
 
 async function main() {
     const args = parseArgs();
+
+    const names = args.names;
+
     // Allow env fallback
     const zoneId = args.zone || process.env.CF_ZONE_ID;
     const token = args.token || process.env.CF_API_TOKEN;
-    const names = args.names || process.env.A_RECORD_NAMES;
+
 
     if (!zoneId || !token || !names) {
         console.error("Usage: node cloudflare-delete-a.js --zone=<zone_id> --token=<api_token> --names=www.example.com,api.example.com");

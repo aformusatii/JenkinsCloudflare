@@ -1,5 +1,6 @@
 const axios = require('axios');
 const { argv } = require('process');
+require('dotenv').config();
 
 // Helper to parse command line or environment
 function parseArgs() {
@@ -70,10 +71,17 @@ async function updateARecord(zone_id, token, record_id, name, content) {
 }
 
 async function main() {
-    const { zone, token, names, value } = parseArgs();
+    const args = parseArgs();
+
+    const names = args.names;
+    const value = args.value;
+
+    // Allow env fallback
+    const zone = args.zone || process.env.CF_ZONE_ID;
+    const token = args.token || process.env.CF_API_TOKEN;
 
     if (!zone || !token || !names || !value) {
-        console.error("Usage: --zone=<zone_id> --token=<CF_API_TOKEN> --names=host1,host2 --value=IP");
+        console.error("Usage: --zone=<zone_id> --names=host1,host2 --value=IP");
         process.exit(1);
     }
 
@@ -108,7 +116,10 @@ async function main() {
 
     // Logic for upsert
     for (const name of aNames) {
-        const existing = records.find(r => r.name === name);
+        const existing = records.find(r => {
+            return r.name.startsWith(name + '.');
+        });
+
         if (existing) {
             if (existing.content === value) {
                 console.log(`Record "${name}" already set to ${value}, no update needed.`);
